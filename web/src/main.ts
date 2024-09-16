@@ -2,7 +2,7 @@ import { createApp } from 'vue';
 import './style.css';
 import App from './App.vue';
 
-// Import the theme manager
+// @ts-ignore
 import { createThemeManager } from 'vue-daisyui-theme-manager';
 
 const app = createApp(App);
