@@ -5,7 +5,6 @@ import Settings from "./components/Settings.vue";
 export default defineComponent({
   components: {Settings},
   setup() {
-
     var showSettings:Ref<boolean> = ref(false);
 
     const toggleSettings = () => {
