@@ -8,6 +8,10 @@ export default defineComponent({
 
     const changeTheme = (theme:string) => {
           document.documentElement.setAttribute('data-theme', theme);
+          if (localStorage.getItem("allow-data-storage") == "true") {
+            console.log("storing theme")
+            localStorage.setItem("theme", theme)
+          }
     }
 
     // Verwende die emit-Funktion direkt

@@ -7,6 +7,10 @@ export default defineComponent({
   setup() {
     var showSettings:Ref<boolean> = ref(false);
 
+    if (localStorage.getItem("theme") !== null) {
+      document.documentElement.setAttribute('data-theme', localStorage.getItem("theme"));
+    }
+
     const toggleSettings = () => {
       console.log("toggle settings")
       showSettings.value = !showSettings.value;
