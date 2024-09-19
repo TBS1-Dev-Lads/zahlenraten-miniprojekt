@@ -11,20 +11,20 @@ export default defineComponent({
     if (localStorage.getItem("allow-data-storage") !== null) {
 
       if (localStorage.getItem("theme") !== null) {
-        document.documentElement.setAttribute('data-theme', localStorage.getItem("theme"));
+        document.documentElement.setAttribute('data-theme', localStorage.getItem("theme")!);
       }
 
       if (localStorage.getItem("audio-feedback") !== null) {
         if (localStorage.getItem("audio-feedback") === "true") {
-          document.documentElement.setAttribute('data-audio-feedback', true);
+          document.documentElement.setAttribute('data-audio-feedback', 'true');
         } else {
-          document.documentElement.setAttribute('data-audio-feedback', false);
+          document.documentElement.setAttribute('data-audio-feedback', 'false');
         }
       }
 
     } else {
       // if data collection isn't allowed set the default values
-      document.documentElement.setAttribute('data-audio-feedback', true);
+      document.documentElement.setAttribute('data-audio-feedback', 'true');
       document.documentElement.setAttribute('data-theme', "dark");
     }
 
