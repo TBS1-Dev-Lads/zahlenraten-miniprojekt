@@ -25,25 +25,35 @@ def get_data():
 
 
 
+# Game routes
+# Start a new game, by generating new number
 @app.route('/game/newgame')
 def new_game():
     session['number'] = random.randint(1, 100)
     print(session['number'])
     return 'ok'
 
-
+# Player makes a guess and the number is checked
 @app.post('/game/guess')
 def guess():
     number = request.json['numbIn']
     if 'number' in session:
-        if session['number'] == number:
-            return win(number)
-        return lose(number)
+        return check_number(number)
     return 'invalid session'
 
-# TODO work on win function
+# Check if the number is right
+def check_number(number):
+    if number == session['number']:
+        return win(number)
+    return lose(number)
+
+
+def invalidate_session():
+    session.pop('number')
+
+# TODO work on win/lose functions
 def win(number):
-    new_game()
+    invalidate_session()
     return 'winner'
 
 def lose(number):
