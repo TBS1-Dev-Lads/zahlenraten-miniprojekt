@@ -2,9 +2,10 @@
 import {defineComponent, Ref, ref, SetupContext} from 'vue';
 import Settings from "./components/Settings.vue";
 import GameInput from "./components/GameInput.vue";
+import AttemptList from './components/AttemptList.vue';
 
 export default defineComponent({
-  components: {Settings, GameInput},
+  components: {Settings, GameInput, AttemptList},
   setup() {
     var showSettings:Ref<boolean> = ref(false);
 
@@ -29,11 +30,16 @@ export default defineComponent({
       document.documentElement.setAttribute('data-theme', "dark");
     }
 
+    
     const toggleSettings = () => {
       showSettings.value = !showSettings.value;
     }
 
-    return { showSettings, toggleSettings };
+
+
+    const attemptList = ref<InstanceType<typeof AttemptList> | null>(null);
+
+    return { showSettings, toggleSettings, attemptList };
   },
 });
 </script>
@@ -49,7 +55,8 @@ export default defineComponent({
     </button>
     <Settings v-if="showSettings" @close="toggleSettings"/>
   </div>
-  <GameInput></GameInput>
+  <GameInput @attemptUpdate="attemptList?.addAttempt"></GameInput>
+  <AttemptList ref="attemptList"/>
 </template>
 
 <style scoped>
