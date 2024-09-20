@@ -28,27 +28,42 @@ export default defineComponent({
             });
         }
 
-        return {max_attempts, attempt_amount, attempts, addAttempt};
+        const getResultString = (result: AttemptResult): string => {
+            switch (result) {
+                case AttemptResult.Success:
+                    return 'Richtig!!!';
+                case AttemptResult.Lower:
+                    return 'Niedriger';
+                case AttemptResult.Higher:
+                    return 'Höher';
+                default:
+                    return 'Parsing Error';
+            }
+        }
+
+        return {max_attempts, attempt_amount, attempts, addAttempt, getResultString};
     }
 });
 </script>
 
 <template>
-    <p>Versuche: {{ attempt_amount }}/{{ max_attempts }}</p>
-    <table class="table table-zebra">
-        <thead>
-            <tr>
-                <th>Versuch</th>
-                <th>Zahl</th>
-                <th>Resultat</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="attempt in attempts" :key="attempt.attempt_number">
-                <td>{{ attempt.attempt_number }}</td>
-                <td>{{ attempt.value }}</td>
-                <td>{{ attempt.result }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="p-12">
+        <p>Versuche: {{ attempt_amount }}/{{ max_attempts }}</p>
+        <table class="table table-zebra">
+            <thead>
+                <tr>
+                    <th>Versuch</th>
+                    <th>Zahl</th>
+                    <th>Resultat</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="attempt in attempts" :key="attempt.attempt_number">
+                    <td>{{ attempt.attempt_number }}</td>
+                    <td>{{ attempt.value }}</td>
+                    <td>{{ getResultString(attempt.result) }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </template>
