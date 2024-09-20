@@ -1,32 +1,53 @@
-<script setup lang="ts">
-import { ref } from 'vue';
+<script lang="ts">
+import { defineComponent, SetupContext, ref, Ref} from 'vue';
 
-const numbIn = ref<number | null>(null);
+export default defineComponent({
+    emits: ['attemptUpdate'],
+    name: 'GameInput',
+    setup(_, { emit }: SetupContext) {
+        const numbIn = ref<number | null>(null);
 
-async function submitNumber() {
-    const numbInValue = numbIn.value;
+        const submitNumber = async () => {
+            const numbInValue = numbIn.value;
 
-    if (numbInValue !== null && numbInValue >= 1 && numbInValue <= 100) {
-        try {
-            const response = await fetch('/game/guess', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ numbIn: numbInValue }),
-            });
+            if(numbInValue !== null && numbInValue >= 1 && numbInValue <= 100){
+                try{
+                    const response = await fetch('/game/guess', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ numbIn: numbInValue }),
+                    });
 
-            if (!response.ok) {
-                throw new Error('Failure');
+                    if (!response.ok) {
+                        throw new Error('Failure');
+                    }
+
+                    const text = await response.text();
+                    var result = -1;
+
+                    switch(text){
+                        case "winner": result = 0; break;
+                        case "lower": result = 1; break;
+                        case "higher": result = 2; break;
+                        default: throw new Error("Failed parsing response"); break;
+                    }
+                    
+                    emit("attemptUpdate", numbInValue, result);
+
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            } else {
+                console.error('Invalid number');
             }
-
-        } catch (error) {
-            console.error('Error:', error);
         }
-    } else {
-        console.error('Invalid number');
-    }
-}
+
+        return { numbIn, submitNumber };
+    },
+});
+
 
 </script>
 
