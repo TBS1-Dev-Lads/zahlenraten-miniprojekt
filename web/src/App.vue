@@ -1,9 +1,10 @@
 <script lang="ts">
 import {defineComponent, Ref, ref, SetupContext} from 'vue';
 import Settings from "./components/Settings.vue";
+import GameInput from "./components/GameInput.vue";
 
 export default defineComponent({
-  components: {Settings},
+  components: {Settings, GameInput},
   setup() {
     var showSettings:Ref<boolean> = ref(false);
 
@@ -48,6 +49,7 @@ export default defineComponent({
     </button>
     <Settings v-if="showSettings" @close="toggleSettings"/>
   </div>
+  <GameInput></GameInput>
 </template>
 
 <style scoped>
