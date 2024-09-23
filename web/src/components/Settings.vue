@@ -119,7 +119,7 @@ export default defineComponent({
       </div>
 
       <div class="w-full">
-        {{ settingsLangLocalized }}
+        {{ settingsModeColorBlindLocalized }}
         <div class="dropdown dropdown-bottom">
           <div tabindex="0" role="button" class="btn m-1">{{ attributeColorBlindMode }}</div>
           <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-full p-2 shadow">
