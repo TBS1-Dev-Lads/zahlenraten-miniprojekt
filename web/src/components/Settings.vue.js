@@ -1,9 +1,22 @@
 import { defineComponent, ref } from 'vue';
+import GetLocalizedText from "../classes/language";
 export default defineComponent({
     emits: ['close'],
     name: 'settings',
     setup(_, { emit }) {
         var isAudioFeedbackEnabled = ref(false);
+        var attributeTheme = ref(document.documentElement.getAttribute("data-theme") ?? "dark");
+        var attributeColorBlindMode = ref(document.documentElement.getAttribute("data-theme") ?? "dark");
+        var attributeLang = ref(document.documentElement.getAttribute("data-language") ?? "english");
+        // localized text
+        var settingsThemeLocalized = ref("");
+        var settingsModeColorBlindLocalized = ref("");
+        var settingsLangLocalized = ref("");
+        async function getLocalization() {
+            settingsThemeLocalized.value = await GetLocalizedText("theme");
+            settingsModeColorBlindLocalized.value = await GetLocalizedText("mode_color_blindness");
+            settingsLangLocalized.value = await GetLocalizedText("lang");
+        }
         if (localStorage.getItem("allow-data-storage") == "true" && localStorage.getItem("audio-feedback") != null) {
             isAudioFeedbackEnabled.value = localStorage.getItem("audio-feedback") == "true";
         }
@@ -14,24 +27,43 @@ export default defineComponent({
                 localStorage.setItem("theme", theme);
             }
         };
+        const changeLang = (lang) => {
+            document.documentElement.setAttribute('data-language', lang);
+            if (localStorage.getItem("allow-data-storage") == "true") {
+                localStorage.setItem("lang", lang);
+            }
+        };
         const toggleAudioFeedback = () => {
             if (localStorage.getItem("allow-data-storage") == "true") {
                 if (localStorage.getItem("audio-feedback") == "true") {
                     localStorage.setItem("audio-feedback", "false");
                     isAudioFeedbackEnabled.value = false;
-                    document.documentElement.setAttribute('data-audio-feedback', false);
+                    document.documentElement.setAttribute('data-audio-feedback', "false");
                 }
                 else {
                     localStorage.setItem("audio-feedback", "true");
                     isAudioFeedbackEnabled.value = true;
-                    document.documentElement.setAttribute('data-audio-feedback', true);
+                    document.documentElement.setAttribute('data-audio-feedback', "true");
                 }
             }
         };
+        getLocalization();
         const close = () => {
             emit("close"); // Event "close" wird emittiert
         };
-        return { close, changeTheme, toggleAudioFeedback, isAudioFeedbackEnabled };
+        return {
+            close,
+            changeTheme,
+            changeLang,
+            toggleAudioFeedback,
+            isAudioFeedbackEnabled,
+            settingsThemeLocalized,
+            settingsModeColorBlindLocalized,
+            settingsLangLocalized,
+            attributeTheme,
+            attributeColorBlindMode,
+            attributeLang
+        };
     },
 });
 ;
@@ -52,7 +84,7 @@ function __VLS_template() {
     // CSS variable injection 
     // CSS variable injection end 
     let __VLS_resolvedLocalAndGlobalComponents;
-    __VLS_elementAsFunction(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({ ...{ class: ("card bg-base-100 w-full shadow-xl settings-container") }, });
+    __VLS_elementAsFunction(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({ ...{ class: ("card bg-base-100 w-full shadow-xl") }, });
     __VLS_elementAsFunction(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({ ...{ class: ("card-body") }, });
     __VLS_elementAsFunction(__VLS_intrinsicElements.h2, __VLS_intrinsicElements.h2)({ ...{ class: ("card-title") }, });
     __VLS_elementAsFunction(__VLS_intrinsicElements.button, __VLS_intrinsicElements.button)({ ...{ onClick: (...[$event]) => {
@@ -61,8 +93,24 @@ function __VLS_template() {
     __VLS_elementAsFunction(__VLS_intrinsicElements.svg, __VLS_intrinsicElements.svg)({ xmlns: ("http://www.w3.org/2000/svg"), height: ("24px"), viewBox: ("0 -960 960 960"), width: ("24px"), fill: ("#e8eaed"), });
     __VLS_elementAsFunction(__VLS_intrinsicElements.path)({ d: ("m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"), });
     __VLS_elementAsFunction(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({ ...{ class: ("w-full") }, });
+    (__VLS_ctx.settingsLangLocalized);
     __VLS_elementAsFunction(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({ ...{ class: ("dropdown dropdown-bottom") }, });
     __VLS_elementAsFunction(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({ tabindex: ("0"), role: ("button"), ...{ class: ("btn m-1") }, });
+    (__VLS_ctx.attributeLang);
+    __VLS_elementAsFunction(__VLS_intrinsicElements.ul, __VLS_intrinsicElements.ul)({ tabindex: ("0"), ...{ class: ("dropdown-content menu bg-base-100 rounded-box z-[1] w-fill p-2 shadow") }, });
+    __VLS_elementAsFunction(__VLS_intrinsicElements.li, __VLS_intrinsicElements.li)({ ...{ onClick: (...[$event]) => {
+                __VLS_ctx.changeLang('ger');
+            } }, });
+    __VLS_elementAsFunction(__VLS_intrinsicElements.a, __VLS_intrinsicElements.a)({});
+    __VLS_elementAsFunction(__VLS_intrinsicElements.li, __VLS_intrinsicElements.li)({ ...{ onClick: (...[$event]) => {
+                __VLS_ctx.changeLang('en');
+            } }, });
+    __VLS_elementAsFunction(__VLS_intrinsicElements.a, __VLS_intrinsicElements.a)({});
+    __VLS_elementAsFunction(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({ ...{ class: ("w-full") }, });
+    (__VLS_ctx.settingsThemeLocalized);
+    __VLS_elementAsFunction(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({ ...{ class: ("dropdown dropdown-bottom") }, });
+    __VLS_elementAsFunction(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({ tabindex: ("0"), role: ("button"), ...{ class: ("btn m-1") }, });
+    (__VLS_ctx.attributeTheme);
     __VLS_elementAsFunction(__VLS_intrinsicElements.ul, __VLS_intrinsicElements.ul)({ tabindex: ("0"), ...{ class: ("dropdown-content menu bg-base-100 rounded-box z-[1] w-fill p-2 shadow") }, });
     __VLS_elementAsFunction(__VLS_intrinsicElements.li, __VLS_intrinsicElements.li)({ ...{ onClick: (...[$event]) => {
                 __VLS_ctx.changeTheme('dark');
@@ -73,8 +121,10 @@ function __VLS_template() {
             } }, });
     __VLS_elementAsFunction(__VLS_intrinsicElements.a, __VLS_intrinsicElements.a)({});
     __VLS_elementAsFunction(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({ ...{ class: ("w-full") }, });
+    (__VLS_ctx.settingsModeColorBlindLocalized);
     __VLS_elementAsFunction(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({ ...{ class: ("dropdown dropdown-bottom") }, });
     __VLS_elementAsFunction(__VLS_intrinsicElements.div, __VLS_intrinsicElements.div)({ tabindex: ("0"), role: ("button"), ...{ class: ("btn m-1") }, });
+    (__VLS_ctx.attributeColorBlindMode);
     __VLS_elementAsFunction(__VLS_intrinsicElements.ul, __VLS_intrinsicElements.ul)({ tabindex: ("0"), ...{ class: ("dropdown-content menu bg-base-100 rounded-box z-[1] w-full p-2 shadow") }, });
     __VLS_elementAsFunction(__VLS_intrinsicElements.li, __VLS_intrinsicElements.li)({});
     __VLS_elementAsFunction(__VLS_intrinsicElements.a, __VLS_intrinsicElements.a)({});
@@ -89,13 +139,25 @@ function __VLS_template() {
     __VLS_styleScopedClasses['bg-base-100'];
     __VLS_styleScopedClasses['w-full'];
     __VLS_styleScopedClasses['shadow-xl'];
-    __VLS_styleScopedClasses['settings-container'];
     __VLS_styleScopedClasses['card-body'];
     __VLS_styleScopedClasses['card-title'];
     __VLS_styleScopedClasses['btn'];
     __VLS_styleScopedClasses['btn-error'];
     __VLS_styleScopedClasses['close'];
     __VLS_styleScopedClasses['round'];
+    __VLS_styleScopedClasses['w-full'];
+    __VLS_styleScopedClasses['dropdown'];
+    __VLS_styleScopedClasses['dropdown-bottom'];
+    __VLS_styleScopedClasses['btn'];
+    __VLS_styleScopedClasses['m-1'];
+    __VLS_styleScopedClasses['dropdown-content'];
+    __VLS_styleScopedClasses['menu'];
+    __VLS_styleScopedClasses['bg-base-100'];
+    __VLS_styleScopedClasses['rounded-box'];
+    __VLS_styleScopedClasses['z-[1]'];
+    __VLS_styleScopedClasses['w-fill'];
+    __VLS_styleScopedClasses['p-2'];
+    __VLS_styleScopedClasses['shadow'];
     __VLS_styleScopedClasses['w-full'];
     __VLS_styleScopedClasses['dropdown'];
     __VLS_styleScopedClasses['dropdown-bottom'];
