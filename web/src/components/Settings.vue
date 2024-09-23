@@ -29,11 +29,11 @@ export default defineComponent({
         if (localStorage.getItem("audio-feedback") == "true") {
           localStorage.setItem("audio-feedback", "false")
           isAudioFeedbackEnabled.value = false;
-          document.documentElement.setAttribute('data-audio-feedback', false);
+          document.documentElement.setAttribute('data-audio-feedback', "false");
         } else {
           localStorage.setItem("audio-feedback", "true")
           isAudioFeedbackEnabled.value = true;
-          document.documentElement.setAttribute('data-audio-feedback', true);
+          document.documentElement.setAttribute('data-audio-feedback', "true");
         }
 
       }
