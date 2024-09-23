@@ -1,11 +1,4 @@
-# Use postgres/example user/password credentials
-version: '3.9'
-
 services:
-  web: 
-      image: tbs1Lads/zahlenraten
-      ports:
-      - "8000:5000"
   db:
     image: postgres
     environment:
@@ -20,10 +13,12 @@ services:
     networks:
       - backend
 
-  adminer:
-    image: adminer
-    ports:
-      - 8080:8080
+  web:
+    build: .
+    ports: 
+      - "8000:5000"
+    networks:
+      - backend
 
 networks:
   backend:
