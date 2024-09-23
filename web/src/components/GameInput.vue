@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, SetupContext, ref, Ref} from 'vue';
+import { defineComponent, SetupContext, ref} from 'vue';
 
 export default defineComponent({
     emits: ['attemptUpdate'],
@@ -24,7 +24,7 @@ export default defineComponent({
                         throw new Error('Failure');
                     }
 
-                    const text = await response.text();
+                    const text = await response.text(); // TODO change to API-response - "guess":"low" /* low | high | correct
                     var result = -1;
 
                     switch(text){
@@ -53,7 +53,7 @@ export default defineComponent({
 
 <template>
     <div class="flex flex-col justify-center items-center w-full">
-        <input v-model="numbIn" id="numbIn" type="number" min="1" max="100" aria-label="Zahl 1-100" placeholder="Zahl 1-100" class="input input-bordered input-primary w-full max-w-xs" tabindex="0">
+        <input v-model="numbIn" v-on:keyup.enter="submitNumber" id="numbIn" type="number" min="1" max="100" aria-label="Zahl 1-100" placeholder="Zahl 1-100" class="input input-bordered input-primary w-full max-w-xs" tabindex="0">
         <br><br>
         <button class="btn btn-primary" tabindex="0" @click="submitNumber">
             Senden
