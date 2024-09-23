@@ -1,5 +1,6 @@
 <script lang="ts">
 import {defineComponent, Ref, ref, SetupContext} from 'vue';
+import DebugLog from "./classes/debugger";
 import Settings from "./components/Settings.vue";
 
 export default defineComponent({
@@ -11,22 +12,31 @@ export default defineComponent({
     if (localStorage.getItem("allow-data-storage") !== null) {
 
       if (localStorage.getItem("theme") !== null) {
-        document.documentElement.setAttribute('data-theme', localStorage.getItem("theme"));
+        document.documentElement.setAttribute('data-theme', localStorage.getItem("theme") ?? "dark");
       }
 
       if (localStorage.getItem("audio-feedback") !== null) {
         if (localStorage.getItem("audio-feedback") === "true") {
-          document.documentElement.setAttribute('data-audio-feedback', true);
+          document.documentElement.setAttribute('data-audio-feedback', "true");
         } else {
-          document.documentElement.setAttribute('data-audio-feedback', false);
+          document.documentElement.setAttribute('data-audio-feedback', "false");
         }
       }
 
     } else {
       // if data collection isn't allowed set the default values
-      document.documentElement.setAttribute('data-audio-feedback', true);
+      document.documentElement.setAttribute('data-audio-feedback', "true");
       document.documentElement.setAttribute('data-theme', "dark");
     }
+
+    var debugInputs = [
+      {logText: "httpAttr: theme", logValue: document.documentElement.getAttribute('data-theme')}, 
+      {logText: "httpAttr: data-audio-feedback", logValue: document.documentElement.getAttribute('data-audio-feedback')},
+      {logText: "storage: allow-data-storage", logValue:localStorage.getItem("allow-data-storage")},
+      {logText: "storage: data-audio-feedback", logValue: localStorage.getItem('data-audio-feedback')},
+      {logText: "storage theme", logValue: localStorage.getItem("theme")},
+    ]
+    DebugLog(debugInputs);
 
     const toggleSettings = () => {
       showSettings.value = !showSettings.value;
