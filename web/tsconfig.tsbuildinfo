@@ -1,1 +1,1 @@
-{"root":["./theme-manager.config.ts","./vite.config.ts","./src/app.vue","./src/app.vue.d.ts","./src/main.ts","./src/vite-env.d.ts","./src/classes/language.ts","./src/components/settings.vue"],"errors":true,"version":"5.6.2"}
+{"root":["./theme-manager.config.ts","./vite.config.ts","./src/app.vue","./src/app.vue.d.ts","./src/main.ts","./src/vite-env.d.ts","./src/classes/debugger.ts","./src/classes/language.ts","./src/components/settings.vue"],"version":"5.6.2"}
